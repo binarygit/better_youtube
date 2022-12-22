@@ -1,0 +1,15 @@
+{
+ "manifest_version": 2,
+ "name" : "Better Youtube",
+ "version": "1.0",
+ "description": "This is a plugin that makes browsing youtube a better experience.",
+
+ "icons": {
+ },
+
+ "content_scripts": [
+   {
+     "matches": ["*://*.youtube.com/*"],
+     "js": ["main.js"]
+   }]
+}
