@@ -1,11 +1,19 @@
 // Write the code here
 
+function removeThumbnailsAndChannelAvatars() {
+  removeThumbnails()
+  removeChannelAvatars()
+  addMutationObserver();
+}
+
 function removeThumbnails() {
   let thumbnails = document.querySelectorAll("ytd-thumbnail");
-  let channelAvatars = document.querySelectorAll("yt-img-shadow");
   thumbnails.forEach((item) => item.remove());
+}
+
+function removeChannelAvatars() {
+  let channelAvatars = document.querySelectorAll("yt-img-shadow");
   channelAvatars.forEach((item) => item.remove());
-  addMutationObserver();
 }
 
 function addMutationObserver() {
@@ -15,10 +23,8 @@ function addMutationObserver() {
     for (const mutation of mutationList) {
       mutation.addedNodes.forEach((item) => {
         if (item.tagName == "YTD-RICH-GRID-ROW") {
-          let thumbnails = item.querySelectorAll("ytd-thumbnail");
-          let channelAvatars = document.querySelectorAll("yt-img-shadow");
-          thumbnails.forEach((item) => item.remove());
-          channelAvatars.forEach((item) => item.remove());
+          removeThumbnails()
+          removeChannelAvatars()
         }
       });
     }
@@ -27,4 +33,4 @@ function addMutationObserver() {
   observer.observe(targetNode, config);
 }
 
-setTimeout(removeThumbnails, 3000);
+setTimeout(removeThumbnailsAndChannelAvatars, 3000);
