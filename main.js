@@ -18,7 +18,7 @@ function removeChannelAvatars() {
 
 function addMutationObserver() {
   const targetNode = document.getElementById("contents");
-  const config = { childList: true, subtree: true };
+  const config = { childList: true };
   const callback = (mutationList, observer) => {
     for (const mutation of mutationList) {
       mutation.addedNodes.forEach((item) => {
@@ -33,4 +33,10 @@ function addMutationObserver() {
   observer.observe(targetNode, config);
 }
 
-setTimeout(removeThumbnailsAndChannelAvatars, 3000);
+function removeRecommendationsPanel() {
+  const panel = document.getElementById('secondary')
+  panel.remove()
+}
+
+setTimeout(removeThumbnailsAndChannelAvatars, 2000);
+setTimeout(removeRecommendationsPanel, 2000);
