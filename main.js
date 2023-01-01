@@ -1,9 +1,19 @@
 // Write the code here
 
-function removeThumbnailsAndChannelAvatars() {
-  removeThumbnails()
-  removeChannelAvatars()
-  addMutationObserver();
+function checkUrl() {
+  let regexForHomepage = new RegExp(/youtube\.com\/?$/)
+  let isHomePage = regexForHomepage.test(window.location.href)
+
+  let regexForWatchPage = new RegExp(/youtube\.com\/?watch.+/)
+  let isWatchPage = regexForWatchPage.test(window.location.href)
+
+  if (isHomePage) {
+    removeThumbnails()
+    removeChannelAvatars()
+    return
+  } else if (isWatchPage) {
+    removeRecommendationsPanel()
+  }
 }
 
 function removeThumbnails() {
@@ -16,27 +26,9 @@ function removeChannelAvatars() {
   channelAvatars.forEach((item) => item.remove());
 }
 
-function addMutationObserver() {
-  const targetNode = document.getElementById("contents");
-  const config = { childList: true };
-  const callback = (mutationList, observer) => {
-    for (const mutation of mutationList) {
-      mutation.addedNodes.forEach((item) => {
-        if (item.tagName == "YTD-RICH-GRID-ROW") {
-          removeThumbnails()
-          removeChannelAvatars()
-        }
-      });
-    }
-  };
-  const observer = new MutationObserver(callback);
-  observer.observe(targetNode, config);
-}
-
 function removeRecommendationsPanel() {
   const panel = document.getElementById('secondary')
   panel.remove()
 }
 
-setTimeout(removeThumbnailsAndChannelAvatars, 2000);
-setTimeout(removeRecommendationsPanel, 2000);
+setInterval(checkUrl, 1000)
